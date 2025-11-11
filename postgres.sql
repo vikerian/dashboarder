@@ -1,0 +1,6 @@
+CREATE DATABASE IF NOT EXISTS iot_db;
+
+\c iot_db;
+
+CREATE EXTENTION IF NOT EXISTS timescaledb;
+

@@ -1,0 +1,43 @@
+services:
+  valkeydb:
+    image: "valkey/valkey-extension:latest"
+    container_name: valkeydb
+    hostname: valkeydb
+    ports:
+      - "6379:6379"
+    networks:
+      appnet:
+    volumes:
+      - "/srv/valkey:/data:rw"
+    restart: unless-stopped
+    command: valkey-server --save 60 1 --loglevel warning
+  timescale:
+    image: timescale/timescaledb:latest-pg18
+    container_name: pgsql18
+    hostname: pgsql18
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - "/srv/pgsql:/var/lib/postgresql:rw"
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    networks:
+      appnet:
+  
+  mqtt:
+    image: eclipse-mosquitto:latest
+    restart: unless-stopped
+    volumes:
+      - "/srv/mqtt/config:/mosquitto/config:ro"
+      - "/srv/mqtt/data:/mosquitto/data:rw"
+      - "/srv/mqtt/logs:/mosquitto/log:rw"
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    networks:
+      appnet:
+  
+
+networks:
+  appnet: 
