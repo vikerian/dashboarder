@@ -1,0 +1,16 @@
+[package]
+name = "parser_service"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+futures = "0.3"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+dotenvy = "0.15"
+tracing = "0.1"
+tracing_subscriber = { version = "0.3", features = ["env-filter"] }
+
+# NOVÁ ZÁVISLOST pro ValkeyDB/Redis
+# Použijeme asynchronní 'tokio-comp' verzi
+redis = { version = "0.25", features = ["tokio-comp"] }
