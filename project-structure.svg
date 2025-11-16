@@ -1,0 +1,259 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="878pt" height="865pt" viewBox="0.00 0.00 878.00 865.00">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 861.4)">
+<title>IoT_Home_Hub_Architektura</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-861.4 873.64,-861.4 873.64,4 -4,4"/>
+<text xml:space="preserve" text-anchor="middle" x="434.82" y="-837.2" font-family="Arial" font-size="18.00">Architektura IoT Home Hub (Mikroslužby v Rustu)</text>
+<g id="clust2" class="cluster">
+<title>cluster_infra</title>
+<path fill="#f5f5f5" stroke="black" d="M726.29,-453C726.29,-453 847.64,-453 847.64,-453 853.64,-453 859.64,-459 859.64,-465 859.64,-465 859.64,-573 859.64,-573 859.64,-579 853.64,-585 847.64,-585 847.64,-585 726.29,-585 726.29,-585 720.29,-585 714.29,-579 714.29,-573 714.29,-573 714.29,-465 714.29,-465 714.29,-459 720.29,-453 726.29,-453"/>
+<text xml:space="preserve" text-anchor="middle" x="786.97" y="-564.8" font-family="Arial" font-size="18.00">Infrastruktura</text>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_rust_services</title>
+<path fill="#e3f2fd" stroke="black" d="M327.76,-196C327.76,-196 823.48,-196 823.48,-196 829.48,-196 835.48,-202 835.48,-208 835.48,-208 835.48,-345 835.48,-345 835.48,-351 829.48,-357 823.48,-357 823.48,-357 327.76,-357 327.76,-357 321.76,-357 315.76,-351 315.76,-345 315.76,-345 315.76,-208 315.76,-208 315.76,-202 321.76,-196 327.76,-196"/>
+<text xml:space="preserve" text-anchor="middle" x="575.62" y="-336.8" font-family="Arial" font-size="18.00">Rust Mikroslužby (SOLID)</text>
+</g>
+<!-- IoT Zařízení -->
+<g id="node1" class="node">
+<title>IoT Zařízení</title>
+<path fill="#e0e0e0" stroke="black" d="M72.91,-521C72.91,-521 19.22,-521 19.22,-521 13.22,-521 7.22,-515 7.22,-509 7.22,-509 7.22,-461 7.22,-461 7.22,-455 13.22,-449 19.22,-449 19.22,-449 72.91,-449 72.91,-449 78.91,-449 84.91,-455 84.91,-461 84.91,-461 84.91,-509 84.91,-509 84.91,-515 78.91,-521 72.91,-521"/>
+<text xml:space="preserve" text-anchor="middle" x="46.06" y="-482" font-family="Arial" font-size="10.00">IoT Zařízení</text>
+</g>
+<!-- Mosquitto (MQTT Broker) -->
+<g id="node3" class="node">
+<title>Mosquitto (MQTT Broker)</title>
+<polygon fill="#d1c4e9" stroke="black" points="851.64,-547.2 726.29,-547.2 722.29,-543.2 722.29,-460.8 847.64,-460.8 851.64,-464.8 851.64,-547.2"/>
+<polyline fill="none" stroke="black" points="847.64,-543.2 722.29,-543.2"/>
+<polyline fill="none" stroke="black" points="847.64,-543.2 847.64,-460.8"/>
+<polyline fill="none" stroke="black" points="847.64,-543.2 851.64,-547.2"/>
+<text xml:space="preserve" text-anchor="middle" x="786.97" y="-501" font-family="Arial" font-size="10.00">Mosquitto (MQTT Broker)</text>
+</g>
+<!-- IoT Zařízení&#45;&gt;Mosquitto (MQTT Broker) -->
+<g id="edge1" class="edge">
+<title>IoT Zařízení-&gt;Mosquitto (MQTT Broker)</title>
+<path fill="none" stroke="#0d47a1" stroke-width="2" stroke-dasharray="5,2" d="M85.37,-505.95C85.37,-505.95 711.04,-505.95 711.04,-505.95"/>
+<polygon fill="#0d47a1" stroke="#0d47a1" stroke-width="2" points="711.04,-508.75 719.04,-505.95 711.04,-503.15 711.04,-508.75"/>
+<text xml:space="preserve" text-anchor="middle" x="368.43" y="-547.5" font-family="Arial" font-size="9.00">  MQTT pub</text>
+<text xml:space="preserve" text-anchor="middle" x="368.43" y="-536.7" font-family="Arial" font-size="9.00">  (surové téma, např. zigbee2mqtt/...)  </text>
+</g>
+<!-- Uživatel (WebUI) -->
+<g id="node2" class="node">
+<title>Uživatel (WebUI)</title>
+<path fill="#e0e0e0" stroke="black" d="M80.12,-78C80.12,-78 12,-78 12,-78 6,-78 0,-72 0,-66 0,-66 0,-54 0,-54 0,-48 6,-42 12,-42 12,-42 80.12,-42 80.12,-42 86.12,-42 92.12,-48 92.12,-54 92.12,-54 92.12,-66 92.12,-66 92.12,-72 86.12,-78 80.12,-78"/>
+<text xml:space="preserve" text-anchor="middle" x="46.06" y="-57" font-family="Arial" font-size="10.00">Uživatel (WebUI)</text>
+</g>
+<!-- api&#45;gateway -->
+<g id="node10" class="node">
+<title>api-gateway</title>
+<defs>
+<linearGradient id="node10_l_0" gradientUnits="userSpaceOnUse" x1="368.43" y1="-41" x2="368.43" y2="-77">
+<stop offset="0" style="stop-color:#c8e6c9;stop-opacity:1.;"/>
+<stop offset="1" style="stop-color:#66bb6a;stop-opacity:1.;"/>
+</linearGradient>
+</defs>
+<path fill="url(#node10_l_0)" stroke="black" d="M391.39,-77C391.39,-77 345.47,-77 345.47,-77 339.47,-77 333.47,-71 333.47,-65 333.47,-65 333.47,-53 333.47,-53 333.47,-47 339.47,-41 345.47,-41 345.47,-41 391.39,-41 391.39,-41 397.39,-41 403.39,-47 403.39,-53 403.39,-53 403.39,-65 403.39,-65 403.39,-71 397.39,-77 391.39,-77"/>
+<text xml:space="preserve" text-anchor="middle" x="368.43" y="-56" font-family="Arial" font-size="10.00">api-gateway</text>
+</g>
+<!-- Uživatel (WebUI)&#45;&gt;api&#45;gateway -->
+<g id="edge8" class="edge">
+<title>Uživatel (WebUI)-&gt;api-gateway</title>
+<path fill="none" stroke="#388e3c" stroke-width="2" d="M92.59,-53.67C92.59,-53.67 322.3,-53.67 322.3,-53.67"/>
+<polygon fill="#388e3c" stroke="#388e3c" stroke-width="2" points="322.3,-56.47 330.3,-53.67 322.3,-50.87 322.3,-56.47"/>
+<text xml:space="preserve" text-anchor="middle" x="191.64" y="-102.5" font-family="Arial" font-size="9.00"> REST: GET /data/...</text>
+<text xml:space="preserve" text-anchor="middle" x="191.64" y="-91.7" font-family="Arial" font-size="9.00"> REST: GET /devices/... </text>
+</g>
+<!-- Uživatel (WebUI)&#45;&gt;api&#45;gateway -->
+<g id="edge11" class="edge">
+<title>Uživatel (WebUI)-&gt;api-gateway</title>
+<path fill="none" stroke="#d32f2f" stroke-width="2" d="M92.59,-65.33C92.59,-65.33 322.3,-65.33 322.3,-65.33"/>
+<polygon fill="#d32f2f" stroke="#d32f2f" stroke-width="2" points="322.3,-68.13 330.3,-65.33 322.3,-62.53 322.3,-68.13"/>
+<text xml:space="preserve" text-anchor="middle" x="191.64" y="-32.7" font-family="Arial" font-size="9.00"> REST: POST /command/... </text>
+</g>
+<!-- Mosquitto (MQTT Broker)&#45;&gt;IoT Zařízení -->
+<g id="edge15" class="edge">
+<title>Mosquitto (MQTT Broker)-&gt;IoT Zařízení</title>
+<path fill="none" stroke="#d32f2f" stroke-width="2" stroke-dasharray="5,2" d="M721.87,-490.9C721.87,-490.9 96.42,-490.9 96.42,-490.9"/>
+<polygon fill="#d32f2f" stroke="#d32f2f" stroke-width="2" points="96.42,-488.1 88.42,-490.9 96.42,-493.7 96.42,-488.1"/>
+<text xml:space="preserve" text-anchor="middle" x="368.43" y="-439.7" font-family="Arial" font-size="9.00">  MQTT příkaz  </text>
+</g>
+<!-- mqtt&#45;ingress -->
+<g id="node6" class="node">
+<title>mqtt-ingress</title>
+<defs>
+<linearGradient id="node6_l_1" gradientUnits="userSpaceOnUse" x1="368.43" y1="-764" x2="368.43" y2="-800">
+<stop offset="0" style="stop-color:#b3e5fc;stop-opacity:1.;"/>
+<stop offset="1" style="stop-color:#0288d1;stop-opacity:1.;"/>
+</linearGradient>
+</defs>
+<path fill="url(#node6_l_1)" stroke="black" d="M391.94,-800C391.94,-800 344.92,-800 344.92,-800 338.92,-800 332.92,-794 332.92,-788 332.92,-788 332.92,-776 332.92,-776 332.92,-770 338.92,-764 344.92,-764 344.92,-764 391.94,-764 391.94,-764 397.94,-764 403.94,-770 403.94,-776 403.94,-776 403.94,-788 403.94,-788 403.94,-794 397.94,-800 391.94,-800"/>
+<text xml:space="preserve" text-anchor="middle" x="368.43" y="-779" font-family="Arial" font-size="10.00">mqtt-ingress</text>
+</g>
+<!-- Mosquitto (MQTT Broker)&#45;&gt;mqtt&#45;ingress -->
+<g id="edge2" class="edge">
+<title>Mosquitto (MQTT Broker)-&gt;mqtt-ingress</title>
+<path fill="none" stroke="#0d47a1" stroke-width="2" d="M749.64,-547.44C749.64,-627 749.64,-788 749.64,-788 749.64,-788 415.32,-788 415.32,-788"/>
+<polygon fill="#0d47a1" stroke="#0d47a1" stroke-width="2" points="415.32,-785.2 407.32,-788 415.32,-790.8 415.32,-785.2"/>
+<text xml:space="preserve" text-anchor="middle" x="584" y="-819.7" font-family="Arial" font-size="9.00">  MQTT sub</text>
+</g>
+<!-- parser&#45;validator -->
+<g id="node7" class="node">
+<title>parser-validator</title>
+<defs>
+<linearGradient id="node7_l_2" gradientUnits="userSpaceOnUse" x1="368.43" y1="-283" x2="368.43" y2="-319">
+<stop offset="0" style="stop-color:#b3e5fc;stop-opacity:1.;"/>
+<stop offset="1" style="stop-color:#0288d1;stop-opacity:1.;"/>
+</linearGradient>
+</defs>
+<path fill="url(#node7_l_2)" stroke="black" d="M399.17,-319C399.17,-319 337.69,-319 337.69,-319 331.69,-319 325.69,-313 325.69,-307 325.69,-307 325.69,-295 325.69,-295 325.69,-289 331.69,-283 337.69,-283 337.69,-283 399.17,-283 399.17,-283 405.17,-283 411.17,-289 411.17,-295 411.17,-295 411.17,-307 411.17,-307 411.17,-313 405.17,-319 399.17,-319"/>
+<text xml:space="preserve" text-anchor="middle" x="368.43" y="-298" font-family="Arial" font-size="10.00">parser-validator</text>
+</g>
+<!-- Mosquitto (MQTT Broker)&#45;&gt;parser&#45;validator -->
+<g id="edge4" class="edge">
+<title>Mosquitto (MQTT Broker)-&gt;parser-validator</title>
+<path fill="none" stroke="#0d47a1" stroke-width="2" d="M732.64,-460.69C732.64,-403.78 732.64,-311 732.64,-311 732.64,-311 422.67,-311 422.67,-311"/>
+<polygon fill="#0d47a1" stroke="#0d47a1" stroke-width="2" points="422.67,-308.2 414.67,-311 422.67,-313.8 422.67,-308.2"/>
+<text xml:space="preserve" text-anchor="middle" x="584" y="-448.7" font-family="Arial" font-size="9.00">  MQTT sub</text>
+</g>
+<!-- timeseries&#45;writer -->
+<g id="node8" class="node">
+<title>timeseries-writer</title>
+<defs>
+<linearGradient id="node8_l_3" gradientUnits="userSpaceOnUse" x1="368.43" y1="-204" x2="368.43" y2="-240">
+<stop offset="0" style="stop-color:#b3e5fc;stop-opacity:1.;"/>
+<stop offset="1" style="stop-color:#0288d1;stop-opacity:1.;"/>
+</linearGradient>
+</defs>
+<path fill="url(#node8_l_3)" stroke="black" d="M401.1,-240C401.1,-240 335.76,-240 335.76,-240 329.76,-240 323.76,-234 323.76,-228 323.76,-228 323.76,-216 323.76,-216 323.76,-210 329.76,-204 335.76,-204 335.76,-204 401.1,-204 401.1,-204 407.1,-204 413.1,-210 413.1,-216 413.1,-216 413.1,-228 413.1,-228 413.1,-234 407.1,-240 401.1,-240"/>
+<text xml:space="preserve" text-anchor="middle" x="368.43" y="-219" font-family="Arial" font-size="10.00">timeseries-writer</text>
+</g>
+<!-- Mosquitto (MQTT Broker)&#45;&gt;timeseries&#45;writer -->
+<g id="edge6" class="edge">
+<title>Mosquitto (MQTT Broker)-&gt;timeseries-writer</title>
+<path fill="none" stroke="#0d47a1" stroke-width="2" d="M741.64,-460.56C741.64,-381.45 741.64,-222 741.64,-222 741.64,-222 424.48,-222 424.48,-222"/>
+<polygon fill="#0d47a1" stroke="#0d47a1" stroke-width="2" points="424.48,-219.2 416.48,-222 424.48,-224.8 424.48,-219.2"/>
+<text xml:space="preserve" text-anchor="middle" x="584" y="-319.7" font-family="Arial" font-size="9.00">  MQTT sub</text>
+</g>
+<!-- command&#45;egress -->
+<g id="node9" class="node">
+<title>command-egress</title>
+<defs>
+<linearGradient id="node9_l_4" gradientUnits="userSpaceOnUse" x1="368.43" y1="-625" x2="368.43" y2="-661">
+<stop offset="0" style="stop-color:#b3e5fc;stop-opacity:1.;"/>
+<stop offset="1" style="stop-color:#0288d1;stop-opacity:1.;"/>
+</linearGradient>
+</defs>
+<path fill="url(#node9_l_4)" stroke="black" d="M403.06,-661C403.06,-661 333.8,-661 333.8,-661 327.8,-661 321.8,-655 321.8,-649 321.8,-649 321.8,-637 321.8,-637 321.8,-631 327.8,-625 333.8,-625 333.8,-625 403.06,-625 403.06,-625 409.06,-625 415.06,-631 415.06,-637 415.06,-637 415.06,-649 415.06,-649 415.06,-655 409.06,-661 403.06,-661"/>
+<text xml:space="preserve" text-anchor="middle" x="368.43" y="-640" font-family="Arial" font-size="10.00">command-egress</text>
+</g>
+<!-- Mosquitto (MQTT Broker)&#45;&gt;command&#45;egress -->
+<g id="edge13" class="edge">
+<title>Mosquitto (MQTT Broker)-&gt;command-egress</title>
+<path fill="none" stroke="#d32f2f" stroke-width="2" d="M729.64,-547.67C729.64,-585.1 729.64,-633 729.64,-633 729.64,-633 426.31,-633 426.31,-633"/>
+<polygon fill="#d32f2f" stroke="#d32f2f" stroke-width="2" points="426.31,-630.2 418.31,-633 426.31,-635.8 426.31,-630.2"/>
+<text xml:space="preserve" text-anchor="middle" x="584" y="-690.7" font-family="Arial" font-size="9.00">  MQTT sub</text>
+</g>
+<!-- Postgres/TimescaleDB -->
+<g id="node4" class="node">
+<title>Postgres/TimescaleDB</title>
+<path fill="#ffdab9" stroke="black" d="M845.82,-161.73C845.82,-163.53 819.44,-165 786.97,-165 754.5,-165 728.12,-163.53 728.12,-161.73 728.12,-161.73 728.12,-132.27 728.12,-132.27 728.12,-130.47 754.5,-129 786.97,-129 819.44,-129 845.82,-130.47 845.82,-132.27 845.82,-132.27 845.82,-161.73 845.82,-161.73"/>
+<path fill="none" stroke="black" d="M845.82,-161.73C845.82,-159.92 819.44,-158.45 786.97,-158.45 754.5,-158.45 728.12,-159.92 728.12,-161.73"/>
+<text xml:space="preserve" text-anchor="middle" x="786.97" y="-144" font-family="Arial" font-size="10.00">Postgres/TimescaleDB</text>
+</g>
+<!-- ValkeyDB -->
+<g id="node5" class="node">
+<title>ValkeyDB</title>
+<path fill="#ffdab9" stroke="black" d="M816.92,-645.73C816.92,-647.53 803.49,-649 786.97,-649 770.44,-649 757.01,-647.53 757.01,-645.73 757.01,-645.73 757.01,-616.27 757.01,-616.27 757.01,-614.47 770.44,-613 786.97,-613 803.49,-613 816.92,-614.47 816.92,-616.27 816.92,-616.27 816.92,-645.73 816.92,-645.73"/>
+<path fill="none" stroke="black" d="M816.92,-645.73C816.92,-643.92 803.49,-642.45 786.97,-642.45 770.44,-642.45 757.01,-643.92 757.01,-645.73"/>
+<text xml:space="preserve" text-anchor="middle" x="786.97" y="-628" font-family="Arial" font-size="10.00">ValkeyDB</text>
+</g>
+<!-- mqtt&#45;ingress&#45;&gt;Mosquitto (MQTT Broker) -->
+<g id="edge3" class="edge">
+<title>mqtt-ingress-&gt;Mosquitto (MQTT Broker)</title>
+<path fill="none" stroke="#0d47a1" stroke-width="2" d="M404.31,-776C497.97,-776 742.64,-776 742.64,-776 742.64,-776 742.64,-558.43 742.64,-558.43"/>
+<polygon fill="#0d47a1" stroke="#0d47a1" stroke-width="2" points="745.44,-558.43 742.64,-550.43 739.84,-558.43 745.44,-558.43"/>
+<text xml:space="preserve" text-anchor="middle" x="584" y="-760.5" font-family="Arial" font-size="9.00">  MQTT pub</text>
+<text xml:space="preserve" text-anchor="middle" x="584" y="-749.7" font-family="Arial" font-size="9.00">  (interní téma, např. iot/telemetry/raw)  </text>
+</g>
+<!-- parser&#45;validator&#45;&gt;Mosquitto (MQTT Broker) -->
+<g id="edge5" class="edge">
+<title>parser-validator-&gt;Mosquitto (MQTT Broker)</title>
+<path fill="none" stroke="#0d47a1" stroke-width="2" d="M411.51,-303C508.9,-303 737.64,-303 737.64,-303 737.64,-303 737.64,-449.36 737.64,-449.36"/>
+<polygon fill="#0d47a1" stroke="#0d47a1" stroke-width="2" points="734.84,-449.36 737.64,-457.36 740.44,-449.36 734.84,-449.36"/>
+<text xml:space="preserve" text-anchor="middle" x="584" y="-389.5" font-family="Arial" font-size="9.00">  MQTT pub</text>
+<text xml:space="preserve" text-anchor="middle" x="584" y="-378.7" font-family="Arial" font-size="9.00">  (validované téma, např. iot/telemetry/parsed)  </text>
+</g>
+<!-- device&#45;registry -->
+<g id="node11" class="node">
+<title>device-registry</title>
+<defs>
+<linearGradient id="node11_l_5" gradientUnits="userSpaceOnUse" x1="786.97" y1="-251" x2="786.97" y2="-287">
+<stop offset="0" style="stop-color:#fff9c4;stop-opacity:1.;"/>
+<stop offset="1" style="stop-color:#fbc02d;stop-opacity:1.;"/>
+</linearGradient>
+</defs>
+<path fill="url(#node11_l_5)" stroke="black" d="M815.48,-287C815.48,-287 758.46,-287 758.46,-287 752.46,-287 746.46,-281 746.46,-275 746.46,-275 746.46,-263 746.46,-263 746.46,-257 752.46,-251 758.46,-251 758.46,-251 815.48,-251 815.48,-251 821.48,-251 827.48,-257 827.48,-263 827.48,-263 827.48,-275 827.48,-275 827.48,-281 821.48,-287 815.48,-287"/>
+<text xml:space="preserve" text-anchor="middle" x="786.97" y="-266" font-family="Arial" font-size="10.00">device-registry</text>
+</g>
+<!-- parser&#45;validator&#45;&gt;device&#45;registry -->
+<g id="edge16" class="edge">
+<title>parser-validator-&gt;device-registry</title>
+<path fill="none" stroke="#f57c00" stroke-width="1.5" stroke-dasharray="1,5" d="M421.88,-295C421.88,-295 786.64,-295 786.64,-295 786.64,-295 786.64,-294.23 786.64,-294.23"/>
+<polygon fill="#f57c00" stroke="#f57c00" stroke-width="1.5" points="421.88,-292.2 413.88,-295 421.88,-297.8 421.88,-292.2"/>
+<polygon fill="#f57c00" stroke="#f57c00" stroke-width="1.5" points="789.44,-297.61 786.64,-289.61 783.84,-297.61 789.44,-297.61"/>
+<text xml:space="preserve" text-anchor="middle" x="584" y="-260.5" font-family="Arial" font-size="9.00"> REST: GET /device/...</text>
+<text xml:space="preserve" text-anchor="middle" x="584" y="-249.7" font-family="Arial" font-size="9.00"> (obohacení dat) </text>
+</g>
+<!-- timeseries&#45;writer&#45;&gt;Postgres/TimescaleDB -->
+<g id="edge7" class="edge">
+<title>timeseries-writer-&gt;Postgres/TimescaleDB</title>
+<path fill="none" stroke="#bf360c" stroke-width="2" stroke-dasharray="1,5" d="M408.64,-203.51C408.64,-183.07 408.64,-153 408.64,-153 408.64,-153 716.83,-153 716.83,-153"/>
+<polygon fill="#bf360c" stroke="#bf360c" stroke-width="2" points="716.83,-155.8 724.83,-153 716.83,-150.2 716.83,-155.8"/>
+<text xml:space="preserve" text-anchor="middle" x="584" y="-190.7" font-family="Arial" font-size="9.00"> SQL INSERT </text>
+</g>
+<!-- command&#45;egress&#45;&gt;Mosquitto (MQTT Broker) -->
+<g id="edge14" class="edge">
+<title>command-egress-&gt;Mosquitto (MQTT Broker)</title>
+<path fill="none" stroke="#d32f2f" stroke-width="2" d="M415.44,-641C514.7,-641 736.64,-641 736.64,-641 736.64,-641 736.64,-558.37 736.64,-558.37"/>
+<polygon fill="#d32f2f" stroke="#d32f2f" stroke-width="2" points="739.44,-558.37 736.64,-550.37 733.84,-558.37 739.44,-558.37"/>
+<text xml:space="preserve" text-anchor="middle" x="584" y="-631.5" font-family="Arial" font-size="9.00">  MQTT pub</text>
+<text xml:space="preserve" text-anchor="middle" x="584" y="-620.7" font-family="Arial" font-size="9.00">  (surové téma, např. zigbee2mqtt/.../set)  </text>
+</g>
+<!-- api&#45;gateway&#45;&gt;Mosquitto (MQTT Broker) -->
+<g id="edge12" class="edge">
+<title>api-gateway-&gt;Mosquitto (MQTT Broker)</title>
+<path fill="none" stroke="#d32f2f" stroke-width="2" d="M403.79,-65C447.92,-65 517.64,-65 517.64,-65 517.64,-65 517.64,-475.85 517.64,-475.85 517.64,-475.85 711.09,-475.85 711.09,-475.85"/>
+<polygon fill="#d32f2f" stroke="#d32f2f" stroke-width="2" points="711.09,-478.65 719.09,-475.85 711.09,-473.05 711.09,-478.65"/>
+<text xml:space="preserve" text-anchor="middle" x="584" y="-131.5" font-family="Arial" font-size="9.00">  MQTT pub</text>
+<text xml:space="preserve" text-anchor="middle" x="584" y="-120.7" font-family="Arial" font-size="9.00">  (interní téma, např. iot/commands/set)  </text>
+</g>
+<!-- api&#45;gateway&#45;&gt;Postgres/TimescaleDB -->
+<g id="edge9" class="edge">
+<title>api-gateway-&gt;Postgres/TimescaleDB</title>
+<path fill="none" stroke="#388e3c" stroke-width="2" stroke-dasharray="1,5" d="M368.64,-77.2C368.64,-101.36 368.64,-141 368.64,-141 368.64,-141 716.89,-141 716.89,-141"/>
+<polygon fill="#388e3c" stroke="#388e3c" stroke-width="2" points="716.89,-143.8 724.89,-141 716.89,-138.2 716.89,-143.8"/>
+<text xml:space="preserve" text-anchor="middle" x="584" y="-2.7" font-family="Arial" font-size="9.00"> SQL SELECT (historie) </text>
+</g>
+<!-- api&#45;gateway&#45;&gt;device&#45;registry -->
+<g id="edge10" class="edge">
+<title>api-gateway-&gt;device-registry</title>
+<path fill="none" stroke="#f57c00" stroke-width="2" stroke-dasharray="1,5" d="M403.89,-53C473.14,-53 619.64,-53 619.64,-53 619.64,-53 619.64,-267 619.64,-267 619.64,-267 735.01,-267 735.01,-267"/>
+<polygon fill="#f57c00" stroke="#f57c00" stroke-width="2" points="735.01,-269.8 743.01,-267 735.01,-264.2 735.01,-269.8"/>
+<text xml:space="preserve" text-anchor="middle" x="584" y="-61.7" font-family="Arial" font-size="9.00"> REST: GET /devices (metadata) </text>
+</g>
+<!-- device&#45;registry&#45;&gt;Postgres/TimescaleDB -->
+<g id="edge17" class="edge">
+<title>device-registry-&gt;Postgres/TimescaleDB</title>
+<path fill="none" stroke="#f57c00" stroke-width="1.5" stroke-dasharray="1,5" d="M786.64,-240.47C786.64,-240.47 786.64,-175.66 786.64,-175.66"/>
+<polygon fill="#f57c00" stroke="#f57c00" stroke-width="1.5" points="783.84,-240.47 786.64,-248.47 789.44,-240.47 783.84,-240.47"/>
+<polygon fill="#f57c00" stroke="#f57c00" stroke-width="1.5" points="789.44,-175.66 786.64,-167.66 783.84,-175.66 789.44,-175.66"/>
+</g>
+<!-- device&#45;registry&#45;&gt;ValkeyDB -->
+<g id="edge18" class="edge">
+<title>device-registry-&gt;ValkeyDB</title>
+<path fill="none" stroke="#f57c00" stroke-width="1.5" stroke-dasharray="1,5" d="M838.09,-269C838.09,-269 869.64,-269 869.64,-269 869.64,-269 869.64,-631 869.64,-631 869.64,-631 827.55,-631 827.55,-631"/>
+<polygon fill="#f57c00" stroke="#f57c00" stroke-width="1.5" points="838.09,-266.2 830.09,-269 838.09,-271.8 838.09,-266.2"/>
+<polygon fill="#f57c00" stroke="#f57c00" stroke-width="1.5" points="827.55,-628.2 819.55,-631 827.55,-633.8 827.55,-628.2"/>
+<text xml:space="preserve" text-anchor="middle" x="584" y="-562.3" font-family="Arial" font-size="9.00"> Cache R/W (rychlý lookup) </text>
+</g>
+</g>
+</svg>
