@@ -1,3 +1,138 @@
+digraph Rust_IoT_Hub {
+    // === Konfigurace ===
+    graph [
+        rankdir=TB,
+        bgcolor="transparent",
+        label="Rust IoT Hub - High-Level Architecture",
+        fontsize=20,
+        fontname="Arial",
+        pad=0.5
+    ];
+    node [
+        style="filled",
+        shape=record,
+        fontname="Arial",
+        fontsize=10,
+        penwidth=1.5
+    ];
+    edge [
+        fontname="Arial",
+        fontsize=9,
+        arrowsize=0.8
+    ];
+
+    // === Legenda (jako subgraph) ===
+    subgraph cluster_legend {
+        label="Legend";
+        style="dotted";
+        bgcolor="#FAFAFA";
+        
+        RustSvc [label="Rust Service", fillcolor="#F74C00:#F78A3A", gradientangle=270, fontcolor=white];
+        ExtSvc [label="External Service", fillcolor="#DDE6ED:#9DB2BF", gradientangle=270];
+        DataSource [label="Data Source / Sink", fillcolor="#C8E6C9:#A5D6A7", gradientangle=270];
+    }
+
+    // === 1. External Sources ===
+    subgraph cluster_sources {
+        label="External Sources";
+        style="dashed";
+        bgcolor="#F5F5F5";
+        
+        PublicAPI [label="Public APIs", shape=plaintext, image="icon_api.png"]; // Ikony by vyžadovaly lokální renderer
+        Websites [label="Websites (for Scraper)", shape=plaintext];
+        IoT_Devices [label="IoT Devices / Other Inputs", shape=plaintext];
+        ExternalSystems [label="3rd Party Systems", shape=plaintext];
+        UserBrowser [label="User (Browser)", shape=cylinder, fillcolor="#E3F2FD"];
+    }
+
+    // === 2. Ingestion Layer (Rust) ===
+    subgraph cluster_ingestion {
+        label="Ingestion Layer (Rust Services)";
+        bgcolor="#FFF3E0";
+        node [fillcolor="#F74C00:#F78A3A", gradientangle=270, fontcolor=white];
+        
+        Downloader [label="{Downloader Service(s)|Adapter Pattern}"];
+        Scraper [label="{Scraper Service(s)|Adapter Pattern}"];
+        InputServer [label="{Input Server(s)|Strategy Pattern (Validation)}"];
+    }
+    
+    // === 3. Event Bus (Broker) ===
+    subgraph cluster_broker {
+        label="Event Bus";
+        bgcolor="#F1F8E9";
+        
+        MQTT [
+            label="{MQTT Broker (Mosquitto)|Pub/Sub Pattern}",
+            shape=diamond,
+            fillcolor="#AED581:#9CCC65",
+            gradientangle=270,
+            fontsize=12,
+            penwidth=2,
+            color="#558B2F"
+        ];
+    }
+    
+    // === 4. Processing Layer (Rust) ===
+    subgraph cluster_processing {
+        label="Processing & Integration (Rust Services)";
+        bgcolor="#FFF3E0";
+        node [fillcolor="#F74C00:#F78A3A", gradientangle=270, fontcolor=white];
+
+        Parser [label="{Parser(s)|Strategy Pattern (Storage)}"];
+        IntegrationServer [label="{Integration Service(s)|Adapter Pattern}"];
+    }
+
+    // === 5. Storage & Search Layer (External) ===
+    subgraph cluster_storage {
+        label="Storage & Search (External Services)";
+        bgcolor="#ECEFF1";
+        node [fillcolor="#DDE6ED:#9DB2BF", gradientangle=270, fontcolor=black];
+
+        ValkeyDB [label="{ValkeyDB|K/V Document Store}"];
+        Postgres [label="{PostgreSQL + TimescaleDB|Time-Series Store}"];
+        SQLite [label="{SQLite|Simple/Config Store}"];
+        Manticore [label="{ManticoreSearch|Search Index}"];
+    }
+
+    // === 6. Presentation Layer (Rust) ===
+    subgraph cluster_presentation {
+        label="Presentation Layer (Rust Services)";
+        bgcolor="#FFF3E0";
+        node [fillcolor="#F74C00:#F78A3A", gradientangle=270, fontcolor=white];
+
+        APIServer [label="{API Server (REST)|Facade Pattern}"];
+        UIServer [label="{Web UI Server|MVC Pattern}"];
+    }
+
+    // === Toky dat ===
+    
+    // Ingestion -> MQTT
+    PublicAPI -> Downloader;
+    Websites -> Scraper;
+    IoT_Devices -> InputServer;
+    {Downloader, Scraper, InputServer} -> MQTT [label="Publish (raw JSON)"];
+
+    // MQTT -> Processing
+    MQTT -> Parser [label="Subscribe (topics)"];
+    MQTT -> IntegrationServer [label="Sub/Pub"];
+    IntegrationServer -> ExternalSystems [label="Integrate"];
+    ExternalSystems -> IntegrationServer; // Může být i obousměrné
+
+    // Processing -> Storage
+    Parser -> {ValkeyDB, Postgres, SQLite} [label="Write Parsed Data"];
+
+    // Storage -> Search
+    {ValkeyDB, Postgres} -> Manticore [label="Data Source (Indexing)"];
+
+    // Storage -> API
+    APIServer -> {ValkeyDB, Postgres, SQLite, Manticore} [label="Query Data"];
+    APIServer -> MQTT [label="Query Topics/State"];
+
+    // API -> UI -> User
+    UIServer -> APIServer [label="Fetch Data (via REST)"];
+    UserBrowser -> UIServer [label="HTTP Request (GET)"];
+    UIServer -> UserBrowser [label="Rendered HTML5"];
+}
 digraph Rust_IoT_Hub_v2 {
     // === Konfigurace ===
     graph [

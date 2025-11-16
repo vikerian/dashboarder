@@ -8,7 +8,7 @@ services:
     networks:
       appnet:
     volumes:
-      - "/srv/valkey:/data:rw"
+      - "./valkey:/data:rw"
     restart: unless-stopped
     command: valkey-server --save 60 1 --loglevel warning
   timescale:
@@ -16,9 +16,9 @@ services:
     container_name: pgsql18
     hostname: pgsql18
     environment:
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}"
     volumes:
-      - "/srv/pgsql:/var/lib/postgresql:rw"
+      - "./pgsql:/var/lib/postgresql:rw"
     ports:
       - "5432:5432"
     restart: unless-stopped
@@ -27,11 +27,12 @@ services:
   
   mqtt:
     image: eclipse-mosquitto:latest
+    container_name: mqtt
     restart: unless-stopped
     volumes:
-      - "/srv/mqtt/config:/mosquitto/config:ro"
-      - "/srv/mqtt/data:/mosquitto/data:rw"
-      - "/srv/mqtt/logs:/mosquitto/log:rw"
+      - "./mqtt/config:/mosquitto/config:rw"
+      - "./mqtt/data:/mosquitto/data:rw"
+      - "./mqtt/logs:/mosquitto/log:rw"
     ports:
       - "1883:1883"
       - "9001:9001"
