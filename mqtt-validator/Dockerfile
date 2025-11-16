@@ -1,6 +1,6 @@
 # --- FÁZE 1: BUILDER ---
 # Začínáme s čistým Alpine obrazem pro Rust
-FROM rust:1.78-alpine AS builder
+FROM rust:1.85-alpine AS builder
 
 # Pro čistě Rustové projekty na Alpine je 'musl-dev' dobrá jistota
 # pro statické linkování proti 'musl' (C knihovně).
@@ -22,7 +22,7 @@ RUN touch src/main.rs && \
     cargo build --release
 
 # --- FÁZE 2: RUNTIME ---
-FROM alpine:latest
+FROM alpine:3.21
 
 # 'ca-certificates' jsou stále potřeba, protože 'rustls' (přes
 # 'encryption' feature) je používá k ověření TLS certifikátů serveru.
@@ -33,7 +33,7 @@ WORKDIR /app
 # Binárka je teď plně statická (kromě libc a ca-certs)
 COPY --from=builder /usr/src/app/target/release/mqtt-validator .
 
-#COPY .env /app/.
+#COPY .env .
 
 ENV RUST_BACKTRACE=full
 
