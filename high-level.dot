@@ -1,0 +1,156 @@
+digraph Rust_IoT_Hub_v2 {
+    // === Konfigurace ===
+    graph [
+        rankdir=TB,
+        bgcolor="transparent",
+        label="Rust IoT Hub - Architecture (v2 with Auth)",
+        fontsize=20,
+        fontname="Arial",
+        pad=0.5
+    ];
+    node [
+        style="filled",
+        shape=record,
+        fontname="Arial",
+        fontsize=10,
+        penwidth=1.5
+    ];
+    edge [
+        fontname="Arial",
+        fontsize=9,
+        arrowsize=0.8
+    ];
+
+    // === Legenda ===
+    subgraph cluster_legend {
+        label="Legend";
+        style="dotted";
+        bgcolor="#FAFAFA";
+        
+        RustSvc [label="Rust Service", fillcolor="#F74C00:#F78A3A", gradientangle=270, fontcolor=white];
+        ExtSvc [label="External Service", fillcolor="#DDE6ED:#9DB2BF", gradientangle=270];
+        DataSource [label="Data Source / Sink", fillcolor="#C8E6C9:#A5D6A7", gradientangle=270];
+    }
+
+    // === 1. External Sources ===
+    subgraph cluster_sources {
+        label="External Data Sources";
+        style="dashed";
+        bgcolor="#F5F5F5";
+        
+        PublicAPI [label="Public APIs"];
+        Websites [label="Websites (for Scraper)"];
+        IoT_Devices [label="IoT Devices / Other Inputs"];
+        ExternalSystems [label="3rd Party Systems"];
+        ExternalOAuth [label="{External OAuth|Google, GitHub, etc}"];
+    }
+
+    // === User Actor (Moved) ===
+    UserBrowser [
+        label="User (Browser)",
+        shape=cylinder,
+        fillcolor="#E3F2FD",
+        style="filled"
+    ];
+
+    // === 2. Ingestion Layer (Rust) ===
+    subgraph cluster_ingestion {
+        label="Ingestion Layer (Rust Services)";
+        bgcolor="#FFF3E0";
+        node [fillcolor="#F74C00:#F78A3A", gradientangle=270, fontcolor=white];
+        
+        Downloader [label="{Downloader Service(s)|Adapter Pattern}"];
+        Scraper [label="{Scraper Service(s)|Adapter Pattern}"];
+        InputServer [label="{Input Server(s)|Strategy Pattern (Validation)}"];
+    }
+    
+    // === 3. Event Bus (Broker) ===
+    subgraph cluster_broker {
+        label="Event Bus";
+        bgcolor="#F1F8E9";
+        
+        MQTT [
+            label="{MQTT Broker (Mosquitto)|Pub/Sub Pattern}",
+            shape=diamond,
+            fillcolor="#AED581:#9CCC65",
+            gradientangle=270,
+            fontsize=12,
+            penwidth=2,
+            color="#558B2F"
+        ];
+    }
+    
+    // === 4. Processing Layer (Rust) ===
+    subgraph cluster_processing {
+        label="Processing & Integration (Rust Services)";
+        bgcolor="#FFF3E0";
+        node [fillcolor="#F74C00:#F78A3A", gradientangle=270, fontcolor=white];
+
+        Parser [label="{Parser(s)|Strategy Pattern (Storage)}"];
+        IntegrationServer [label="{Integration Service(s)|Adapter Pattern}"];
+    }
+
+    // === 5. Storage & Search Layer (External) ===
+    subgraph cluster_storage {
+        label="Storage & Search (External Services)";
+        bgcolor="#ECEFF1";
+        node [fillcolor="#DDE6ED:#9DB2BF", gradientangle=270, fontcolor=black];
+
+        ValkeyDB [label="{ValkeyDB|K/V Document Store}"];
+        Postgres [label="{PostgreSQL + TimescaleDB|... & User Auth Table}"]; // Poznámka přidána
+        SQLite [label="{SQLite|Simple/Config Store}"];
+        Manticore [label="{ManticoreSearch|Search Index}"];
+    }
+
+    // === 6. Presentation Layer (Rust) ===
+    subgraph cluster_presentation {
+        label="Presentation & Security Layer (Rust Services)";
+        bgcolor="#E1F5FE"; // Změna barvy pro odlišení
+        node [fillcolor="#0277BD:#0288D1", gradientangle=270, fontcolor=white]; // Změna barvy
+
+        APIServer [label="{API Server (REST)|Facade Pattern|Requires Valid JWT}"];
+        UIServer [label="{Web UI Server|MVC Pattern}"];
+        AuthServer [label="{Auth Server (Rust)|Handles Login / OAuth / JWTs}"];
+    }
+
+    // === Toky dat ===
+    
+    // Ingestion -> MQTT
+    PublicAPI -> Downloader;
+    Websites -> Scraper;
+    IoT_Devices -> InputServer;
+    {Downloader, Scraper, InputServer} -> MQTT [label="Publish (raw JSON)"];
+
+    // MQTT -> Processing
+    MQTT -> Parser [label="Subscribe (topics)"];
+    MQTT -> IntegrationServer [label="Sub/Pub"];
+    IntegrationServer -> ExternalSystems;
+    ExternalSystems -> IntegrationServer;
+
+    // Processing -> Storage
+    Parser -> {ValkeyDB, Postgres, SQLite} [label="Write Parsed Data"];
+
+    // Storage -> Search
+    {ValkeyDB, Postgres} -> Manticore [label="Data Source (Indexing)"];
+
+    // Storage -> API
+    APIServer -> {ValkeyDB, Postgres, SQLite, Manticore} [label="Query Data"];
+    APIServer -> MQTT [label="Query Topics/State"];
+    
+    // --- Auth & UI Flow (Nové/Zvýrazněné) ---
+    UserBrowser -> UIServer [label="1. Request Page", penwidth=2, color="#0D47A1"];
+    
+    // Login Flow
+    UserBrowser -> AuthServer [label="2. Login Request", penwidth=2, color="#0D47A1", style=dashed];
+    AuthServer -> ExternalOAuth [label="3a. OAuth Redirect", style=dashed];
+    AuthServer -> Postgres [label="3b. Local User Check", style=dashed];
+    AuthServer -> UserBrowser [label="4. Issue JWT (Cookie/Token)", penwidth=2, color="#0D47A1", style=dashed];
+
+    // Authenticated UI Flow
+    UIServer -> APIServer [label="5. Fetch Data (with JWT)", penwidth=2, color="#0D47A1"];
+    UIServer -> UserBrowser [label="6. Rendered HTML5", penwidth=2, color="#0D47A1"];
+    
+    // Ověření tokenu (vztah mezi Auth a API serverem)
+    // API server si při startu (nebo periodicky) stáhne veřejný klíč od Auth serveru
+    APIServer -> AuthServer [label="Validate JWT Public Key\n(on startup)", style=dotted, constraint=false];
+}
