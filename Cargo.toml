@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "common",
+    "services/tcp-ingress"
+]
+resolver = "2"

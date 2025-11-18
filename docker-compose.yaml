@@ -39,17 +39,22 @@ services:
     networks:
       appnet:
 
-  mqtt_validator:
-    build: mqtt-validator/.
-    image: localhost/mqtt-validator:0.01
-    container_name: mqttvalidator_01
-    restart: unless-stopped
-    networks:
-      appnet:
-    environment:
-      RUST_BACKTRACE: 1
-      APP_CONFIG: '{ "broker_url": "tcp://mqtt:1883", "client_id": "mqtt-validator-0_01", "input_topic": "/data/raw/input", "valid_topic": "/data/validated/output", "invalid_topic": "/data/invalid/log", "validation_regex": "^\\{\\s*\"id\":\\s*\\d+\\s*,.+\\}$" }'
-    depends_on: [ 'mqtt' ]
+  #mqtt_validator:
+  #  build: mqtt-validator/.
+  #  image: localhost/mqtt-validator:0.01
+  #  container_name: mqttvalidator_01
+  #  restart: unless-stopped
+  #  networks:
+  #    appnet:
+  #  environment:
+  #    RUST_BACKTRACE: 1
+  #    APP_CONFIG: '{ "broker_url": "tcp://mqtt:1883","client_id": "mqtt-vld-0_01", "input_topic": "/data/raw/input", "valid_topic": "/data/validated/output", "invalid_topic": "/data/invalid/log", "validation_regex": "^\\{\\s*\"id\":\\s*\\d+\\s*,.+\\}$" }'
+  #    broker_url: "tcp://mqtt:1883"
+  #    client_id: "mqtt-vld-0_01" 
+  #    valid_topic: "/data/validated/output"
+  #    invalid_topic: "/data/invalid/log"
+  #    validation_regex: "^\\{\\s*\"id\":\\s*\\d+\\s*,.+\\}$"
+  #  depends_on: [ 'mqtt' ]
     
 networks:
   appnet: 
