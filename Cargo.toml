@@ -1,6 +1,7 @@
 [workspace]
 members = [
     "common",
-    "services/tcp-ingress"
+    "services/tcp-ingress",
+    "services/meshtastic-ingress"
 ]
 resolver = "2"

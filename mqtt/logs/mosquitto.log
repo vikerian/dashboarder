@@ -45,3 +45,25 @@
 1763469812: Opening ipv4 listen socket on port 1883.
 1763469812: Opening ipv6 listen socket on port 1883.
 1763469812: mosquitto version 2.0.22 running
+1763548605: New connection from 192.168.254.65:42222 on port 1883.
+1763548605: New client connected from 192.168.254.65:42222 as meshtastic-ingress-processor (p2, c1, k5).
+1763548694: New connection from 192.168.254.65:46144 on port 1883.
+1763548694: New client connected from 192.168.254.65:46144 as auto-74ACE674-10D1-F6DF-91B2-E0F2914B9C3F (p2, c1, k60).
+1763548694: Client auto-74ACE674-10D1-F6DF-91B2-E0F2914B9C3F disconnected.
+1763548705: New connection from 192.168.254.65:46104 on port 1883.
+1763548705: New client connected from 192.168.254.65:46104 as auto-3815E84D-1188-BD64-679D-422D18117FCE (p2, c1, k60).
+1763548705: Client auto-3815E84D-1188-BD64-679D-422D18117FCE disconnected.
+1763548965: New connection from 192.168.254.65:57960 on port 1883.
+1763548965: New client connected from 192.168.254.65:57960 as auto-8EE83B91-0EC9-E4EC-1680-3FD37C2A276D (p2, c1, k60).
+1763548965: Client auto-8EE83B91-0EC9-E4EC-1680-3FD37C2A276D disconnected.
+1763548982: New connection from 192.168.254.65:55420 on port 1883.
+1763548982: New client connected from 192.168.254.65:55420 as auto-B2BD47B2-66EF-CD52-B1C6-E5A9C14139BA (p2, c1, k60).
+1763548985: New connection from 192.168.254.65:55430 on port 1883.
+1763548985: New client connected from 192.168.254.65:55430 as auto-24A558ED-1F5B-1A39-C29B-826ADBFE1929 (p2, c1, k60).
+1763548985: Client auto-24A558ED-1F5B-1A39-C29B-826ADBFE1929 disconnected.
+1763548994: Client auto-B2BD47B2-66EF-CD52-B1C6-E5A9C14139BA disconnected.
+1763548996: New connection from 192.168.254.65:57416 on port 1883.
+1763548996: New client connected from 192.168.254.65:57416 as auto-F9F88D74-D637-CB26-B069-44EE862AACE0 (p2, c1, k60).
+1763548998: New connection from 192.168.254.65:57430 on port 1883.
+1763548998: New client connected from 192.168.254.65:57430 as auto-A58A068F-6D1D-639B-5D00-A6022C253264 (p2, c1, k60).
+1763548998: Client auto-A58A068F-6D1D-639B-5D00-A6022C253264 disconnected.

@@ -1,0 +1,19 @@
+[package]
+name = "meshtastic-ingress"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+common = { path = "../../common" }
+tokio = { version = "1", features = ["full"] }
+tracing = "0.1"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+rumqttc = "0.24" # MQTT klienta
+dotenv = "0.15"
+# time-serie 
+chrono = "0.4"
+# Možné přidání: Pro Meshtastic by se mohl hodit crate pro práci s Protobuf/Base64,
+# ale pro jednoduchost budeme předpokládat, že firmware Gatewaye posílá
+# rozumný JSON payload (jako to umí Meshtastic CLI/API).
+# Pokud by šel Meshtastic JSON, je tato sada dependencies dostatečná.
