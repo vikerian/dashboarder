@@ -16,9 +16,13 @@ services:
     container_name: pgsql18
     hostname: pgsql18
     environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}"
+      TIMESCALEDB_TELEMETRY: "off"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      TS_TUNE_MEMORY: "4GB"
+      TS_TUNE_NUM_CPUS: 4
+      TS_TUNE_MAX_CONNS: 128
     volumes:
-      - "./pgsql:/var/lib/postgresql:rw"
+      - "/srv/pgsql:/var/lib/postgresql:rw"
     ports:
       - "5432:5432"
     restart: unless-stopped

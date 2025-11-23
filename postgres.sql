@@ -1,4 +1,5 @@
-CREATE DATABASE IF NOT EXISTS iot_db;
+SELECT 'CREATE DATABASE iot_db'
+WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'iot_db')\gexec
 
 \c iot_db;
 
@@ -154,3 +155,11 @@ VALUES (1, 'legacy/placeholder/1', 'TEMP_SENSOR_01', 'TCP Teploměr');
 -- Získej ID vloženého senzoru (předpokládejme ID 1) a vytvoř routu
 INSERT INTO ingress_routes (sensor_id, target_topic)
 VALUES ((SELECT id FROM sensors WHERE tcp_identifier = 'TEMP_SENSOR_01'), 'iot/raw/temp_01');
+
+-- Doplňková úprava tabulky sensor_types
+ALTER TABLE sensor_types ADD COLUMN min_value DOUBLE PRECISION;
+ALTER TABLE sensor_types ADD COLUMN max_value DOUBLE PRECISION;
+
+-- Příklad: nastavení limitů pro typ senzoru 'temperature' (předpokládáme ID=1)
+UPDATE sensor_types SET min_value = -30.0, max_value = 80.0 
+WHERE name = 'temperature';

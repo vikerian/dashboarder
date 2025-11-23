@@ -55,3 +55,13 @@ pub struct ServiceConfig {
     pub config_key: String,
     pub config_value: String,
 }
+
+// Reprezentuje pravidla pro validaci hodnot daného typu senzoru.
+#[derive(Debug, Serialize, Deserialize, sqlx::FromRow, Clone)]
+pub struct ValidationRule {
+    pub sensor_type_id: i32,
+    pub min_value: Option<f64>, // Nullable v DB
+    pub max_value: Option<f64>, // Nullable v DB
+    pub unit: Option<String>,
+    // Další pole, např. 'delta' pro kontrolu rychlosti změn...
+}
