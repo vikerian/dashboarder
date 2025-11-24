@@ -108,3 +108,30 @@
 1763920834: Client auto-93CF569E-7D5F-A9CA-98AF-F2FFE750D1F4 disconnected.
 1763920845: Client meshtastic-ingress-processor closed its connection.
 1763921358: Client auto-062393CB-141B-A880-468E-51EF43CB7BF8 disconnected.
+1763996925: mosquitto version 2.0.22 terminating
+1763996958: mosquitto version 2.0.22 starting
+1763996958: Config loaded from /mosquitto/config/mosquitto.conf.
+1763996958: Opening ipv4 listen socket on port 1883.
+1763996958: Opening ipv6 listen socket on port 1883.
+1763996958: mosquitto version 2.0.22 running
+1764005506: New connection from 192.168.255.129:40294 on port 1883.
+1764005506: New client connected from 192.168.255.129:40294 as auto-C0429755-A62E-5EE5-6637-376847F2BFD8 (p2, c1, k60).
+1764005544: New connection from 192.168.255.129:47640 on port 1883.
+1764005544: New client connected from 192.168.255.129:47640 as LK313946D (p2, c1, k60).
+1764005574: Client auto-C0429755-A62E-5EE5-6637-376847F2BFD8 disconnected.
+1764005578: New connection from 192.168.255.129:32906 on port 1883.
+1764005578: New client connected from 192.168.255.129:32906 as auto-E78FBF20-401E-350D-356C-6D9762474369 (p2, c1, k60).
+1764005612: Client LK313946D disconnected.
+1764005612: New connection from 192.168.255.129:32900 on port 1883.
+1764005612: New client connected from 192.168.255.129:32900 as LK313946D (p2, c1, k60).
+1764005668: Client LK313946D disconnected.
+1764005668: New connection from 192.168.255.129:44490 on port 1883.
+1764005668: New client connected from 192.168.255.129:44490 as LK313946D (p2, c1, k60).
+1764005744: Client LK313946D disconnected.
+1764005750: New connection from 192.168.255.129:41602 on port 1883.
+1764005750: New client connected from 192.168.255.129:41602 as LK313946D (p2, c1, k60).
+1764006041: Client LK313946D disconnected.
+1764006041: New connection from 192.168.255.129:41846 on port 1883.
+1764006041: New client connected from 192.168.255.129:41846 as LK313946D (p2, c1, k60).
+1764006508: Client auto-E78FBF20-401E-350D-356C-6D9762474369 disconnected.
+1764006946: mosquitto version 2.0.22 terminating

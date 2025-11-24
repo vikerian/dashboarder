@@ -1,0 +1,15 @@
+[package]
+name = "rpi-temp-ingress"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+common = { path = "../../common" }
+tokio = { version = "1", features = ["full"] }
+tracing = "0.1"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+rumqttc = "0.24" 
+dotenv = "0.15"
+chrono = "0.4" # Přidáno pro použití Utc::now()
+

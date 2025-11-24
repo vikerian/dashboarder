@@ -59,6 +59,24 @@ services:
   #    invalid_topic: "/data/invalid/log"
   #    validation_regex: "^\\{\\s*\"id\":\\s*\\d+\\s*,.+\\}$"
   #  depends_on: [ 'mqtt' ]
+
+  rpi-temp-ingress:
+    build:
+      context: .
+      dockerfile: ./services/rpi-temp-ingress/Dockerfile
+    image: localhost/rpi-temp-ingress:0.01
+    container_name: rpi-temp-ingress
+    environment:
+      DATABASE_URL: postgres://root:pgpwpass@pgsql18:5432/iot_db
+      MQTT_HOST: mqtt
+      MQTT_PORT: 1883
+      RUST_LOG: debug
+    restart: unless-stopped
+    networks:
+      appnet:
+    depends_on:
+      - mqtt
+      - timescale
     
 networks:
   appnet: 

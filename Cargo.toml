@@ -2,6 +2,7 @@
 members = [
     "common",
     "services/tcp-ingress",
-    "services/meshtastic-ingress"
+    "services/meshtastic-ingress",
+    "services/rpi-temp-ingress"
 ]
 resolver = "2"

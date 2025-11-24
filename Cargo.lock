@@ -1224,6 +1224,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "rpi-temp-ingress"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "common",
+ "dotenv",
+ "rumqttc",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
 name = "rsa"
 version = "0.9.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
