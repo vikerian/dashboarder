@@ -1,91 +1,71 @@
-use common::{logging, models::ParsedMeasurement}; // Používáme kód ze sdílené knihovny 'common'
-use rumqttc::{AsyncClient, Event, Incoming, MqttOptions, QoS}; // Náš MQTT klient a jeho typy
-use std::env; // Pro čtení proměnných prostředí (ENV)
+use common::{logging, models::ParsedMeasurement};
+use rumqttc::{AsyncClient, Event, Incoming, MqttOptions, QoS};
+use std::env;
 use std::time::Duration;
-use tokio::time; // Nástroj pro asynchronní časování (např. spánek)
-use tracing::instrument; // Makro pro snadné přidání kontextu do logů (tracing)
+use tokio::time;
+use tracing::instrument;
 
-// --- GLOBÁLNÍ KONSTANTY ---
-// 'const' znamená, že tyto hodnoty jsou pevně dané během kompilace a jsou rychlé.
-const RPI_TEMP_SUB_TOPIC: &str = "/msh/internal_temp/#"; // Odebíráme všechny sub-témy RPi
-const RAW_TELEMETRY_TOPIC: &str = "iot/telemetry/raw"; // Cíl pro validovaná data
+// --- KONFIGURACE A MAPOVÁNÍ ---
+const RPI_TEMP_SUB_TOPIC: &str = "/msh/internal_temp/#";
+const RAW_TELEMETRY_TOPIC: &str = "iot/telemetry/raw"; 
 const MIN_VALUE: f64 = -30.00;
 const MAX_VALUE: f64 = 120.99;
 
-// --- MAPOVACÍ FUNKCE ---
-// Převádí surové MQTT téma na náš interní, srozumitelný název (SOLID princip).
-// '&'static str' znamená, že vracíme "věčný" řetězec, který je napevno zapsaný v programu.
 fn map_topic_to_name(topic: &str) -> Option<&'static str> {
     match topic {
         "/msh/internal_temp/ds1" => Some("rpi_cooler_temp"),
         "/msh/internal_temp/ds2" => Some("room_ambient_temp"),
-        _ => None, // 'None' vracíme, pokud téma neznáme (neznámý senzor)
+        _ => None, 
     }
 }
 
-// --- HLAVNÍ ASYNCHRONNÍ FUNKCE ---
-// #[tokio::main] je makro, které spustí asynchronní runtime (scheduler).
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // Načtení .env souboru a inicializace logování (naše 'common' funkce)
     dotenv::dotenv().ok();
     logging::init_logging("rpi-temp-ingress");
 
-    // 1. NASTAVENÍ MQTT PŘIPOJENÍ
-    // Čteme z ENV, pokud chybí, použijeme default "localhost"
+    // 1. MQTT SETUP
     let mqtt_host = env::var("MQTT_HOST").unwrap_or_else(|_| "localhost".to_string());
     let mqtt_port: u16 = env::var("MQTT_PORT").unwrap_or_else(|_| "1883".to_string()).parse()?;
     
-    // Vytvoříme možnosti připojení a identifikaci klienta.
-    let mqtt_options = MqttOptions::new("rpi-temp-processor", mqtt_host, mqtt_port);
-    // Vytvoříme klienta (pro odesílání) a EventLoop (pro příjem a správu spojení)
-    let (client, mut eventloop) = AsyncClient::new(mqtt_options.set_keep_alive(Duration::from_secs(5)), 10);
+    let mut mqtt_options = MqttOptions::new("rpi-temp-processor", mqtt_host, mqtt_port);
+    mqtt_options.set_keep_alive(Duration::from_secs(5)); // Mutace provedena ZDE
+    
+    // Zde má eventloop VLASTNICTVÍ.
+    let (client, mut eventloop) = AsyncClient::new(mqtt_options, 10); 
 
-    // 2. SPÁDNÍ EVENT LOOPU NA POZADÍ
-    // 'tokio::spawn' spustí task v 'zeleném vláknu'. 
-    // EventLoop musí neustále běžet, aby se zpracovávaly síťové události.
-    tokio::spawn(async move {
-        // .poll().await je asynchronní čekání, neblokuje fyzické vlákno CPU.
-        while let Ok(_) = eventloop.poll().await {}
-    });
-
-    // 3. SUBSCRIBE NA TÉMATA
-    // Klonujeme klienta, abychom ho mohli přesunout (move) do nového tasku.
+    // 2. SUBSCRIBE NA TÉMATA (Potřebuje klon klienta, ne eventloop)
     let subscribe_client = client.clone();
     tokio::spawn(async move {
-        time::sleep(Duration::from_millis(500)).await; // Asynchronně čekáme, než se klient připojí
-        // Přihlášení k odběru surového téma
+        time::sleep(Duration::from_millis(500)).await;
         if let Err(e) = subscribe_client.subscribe(RPI_TEMP_SUB_TOPIC, QoS::AtLeastOnce).await {
             tracing::error!("Failed to subscribe to RPI topic: {:?}", e);
         }
     });
 
-    // 4. HLAVNÍ SMYČKA ZPRACOVÁNÍ DAT
-    loop { // Nekonečná smyčka
-        // Čekáme na novou událost (zprávu, ping, připojení...)
-        match eventloop.poll().await {
-            Ok(notification) => {
-                // Kontrolujeme, jestli je událost příchozí zpráva (Incoming::Publish)
-                if let Event::Incoming(Incoming::Publish(publish)) = notification {
-                    // Klonujeme potřebné handle (odkazy), abychom je mohli poslat do workeru.
-                    let client_handle = client.clone(); 
-                    
-                    // Spustíme nový worker task pro zpracování zprávy.
-                    // Tím se zajišťuje, že jedna pomalá zpráva nezablokuje příjem dalších.
-                    tokio::spawn(async move {
-                        if let Err(e) = handle_rpi_message(publish, client_handle).await {
-                            tracing::warn!("Failed to process RPi message: {:?}", e);
-                        }
-                    });
-                }
+    // 3. HLAVNÍ SMYČKA ZPRACOVÁNÍ DAT (Soustředěná smyčka)
+    // Eventloop je zde VLASTNÍKEM a používá metodu poll()
+    // Kód pro udržování spojení je obsažen v .poll().await, task na řádku 48 byl redundantní.
+    while let Ok(notification) = eventloop.poll().await { 
+        match notification {
+            Event::Incoming(Incoming::Publish(publish)) => {
+                let client_handle = client.clone();
+
+                // Spustíme worker task pro zpracování zprávy.
+                // Zde je to v pořádku, protože proměnné 'publish' a 'client' 
+                // jsou klony/předané hodnoty a eventloop není potřeba.
+                tokio::spawn(async move {
+                    if let Err(e) = handle_rpi_message(publish, client_handle).await {
+                        tracing::warn!("Failed to process RPi message: {:?}", e);
+                    }
+                });
             }
-            Err(e) => {
-                // Zde se řeší fatální chyby s MQTT spojením.
-                tracing::error!("MQTT connection error: {}", e);
-                time::sleep(Duration::from_secs(5)).await; // Čekáme a zkusíme znovu
-            }
+            // Zde by mohly být další Eventy (např. Event::ConnAck - potvrzení připojení)
+            _ => { /* Ignorujeme ostatní události, jako je PING, ConnAck, atd. */ }
         }
     }
+    
+    Ok(())
 }
 
 // --- LOGIKA PRO JEDNU ZPRÁVU (WORKER) ---
